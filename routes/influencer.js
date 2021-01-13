@@ -5,24 +5,37 @@ const Influencer = require('../influencerDB')
 //testing git
 router.post('/submitreview', async(req, res) => {
   const reqighandle = req.body.IGHANDLE;
+  
   const reqreviews = req.body.REVIEW
+  console.log("yo..." + reqreviews.body)
   const filter = { ighandle: reqighandle};
   const update = { $push: {reviews:reqreviews} };
+  
   try{
     let doc = await Influencer.findOneAndUpdate(filter, update, {
-      new: true
+      new: true,
+      upsert: true, 
+      setDefaultsOnInsert: true
     });
     await doc.save();
     res.json(doc);
   } catch(error){
-    console.log('therock exists');
-    console.log(reqreviews)
-    let influencer = {};
-    influencer.ighandle = reqighandle;
-    influencer.reviews = reqreviews;
-    let influencerModel = new Influencer(influencer);
-    await influencerModel.save();
-    res.json(influencerModel);
+    console.log(error)
+    // var newInfluencer = new Influencer ({
+    //   ighandle: reqighandle,
+    //   reviews : [] 
+    // });
+    // newInfluencer.review.$push(reqreviews);
+    // newInfluencer.save(function(err){
+    //   if(err){
+    //       console.log("something went wrog, read below");
+    //       console.log(err);
+    //   }
+    // });
+    
+    //newInfluencer.save();
+    //res.json(newInfluencer);
+  
   }
   
 });

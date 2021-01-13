@@ -9,9 +9,5 @@ const connectToDB = async()=> {
 
 module.exports = connectToDB;
 
-// mongoose.connection.once('open',function(){
-//     console.log('Connection has been made')
-// }).on('error', function(error){
-//     console.log('error is: ' + error);
-// })
+
 

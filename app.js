@@ -12,6 +12,7 @@ const { Recoverable } = require('repl');
 var app = express();
 var connectDB = require('./connection');
 const connectToDB = require('./connection');
+const ipp = require('instagram-profile-picture');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -32,7 +33,10 @@ connectToDB();
 
 app.post('/getEngagement', function(req, res) {
   var ighandlereceive = req.body.IGHANDLE;
+  
   console.log("received ig handle is" + ighandlereceive);
+  
+    
   const spawn = require('child_process').spawn;
   if(ighandlereceive!=''){
     const process = spawn('python',['./engagement.py',ighandlereceive]);
