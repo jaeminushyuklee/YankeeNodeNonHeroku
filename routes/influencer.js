@@ -9,7 +9,12 @@ router.post('/submitreview', async(req, res) => {
   const reqreviews = req.body.REVIEW
   console.log("yo..." + reqreviews.body)
   const filter = { ighandle: reqighandle};
-  const update = { $push: {reviews:reqreviews} };
+  const update = { $push: {
+    reviews: {
+       $each: [reqreviews],
+       $position: 0
+    }
+ }};
   
   try{
     let doc = await Influencer.findOneAndUpdate(filter, update, {

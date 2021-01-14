@@ -12,7 +12,7 @@ const { Recoverable } = require('repl');
 var app = express();
 var connectDB = require('./connection');
 const connectToDB = require('./connection');
-const ipp = require('instagram-profile-picture');
+const Influencer = require('./influencerDB')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -28,6 +28,7 @@ app.use('/user', usersRouter);
 app.use('/testpython',testpyrouter);
 app.use('/getEngagement',require('./routes/getEngagement'));
 app.use('/influencer',require('./routes/influencer'));
+app.use('/getReviews',require('./routes/getReviews'));
 
 connectToDB();
 
@@ -45,6 +46,25 @@ app.post('/getEngagement', function(req, res) {
         res.send(JSON.stringify(data.toString()));
     });
   }
+});
+
+app.post('/getReviews', function(req, res) {
+  var ighandlereceive = req.body.IGHANDLE;
+  Influencer.findOne({ighandle:ighandlereceive}, function(err,influencer){
+    if(err){
+      console.log(err);
+    } 
+    if (!influencer){
+      res.send('No reviews')
+    } else {
+      res.send(influencer.reviews);
+    }
+      
+    
+    
+    
+  }) 
+
 });
 
 app.post('/testpython', function(req, res) {
