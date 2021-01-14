@@ -9,7 +9,8 @@ const influencer = new mongoose.Schema({
         body: String,
         rating: Number,
         date: String,
-        qualities: Array,
+        Gqualities: Array,
+        Bqualities: Array,
       }],
 })
 
