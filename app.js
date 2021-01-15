@@ -41,6 +41,7 @@ app.post('/getEngagement', function(req, res) {
     
   const spawn = require('child_process').spawn;
   if(ighandlereceive!=''){
+    console.log('we at least here')
     const process = spawn('python',['./engagement.py',ighandlereceive]);
     process.stdout.on('data', data => {
         console.log(data.toString());
