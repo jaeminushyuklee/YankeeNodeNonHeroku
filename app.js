@@ -13,6 +13,7 @@ var app = express();
 var connectDB = require('./connection');
 const connectToDB = require('./connection');
 const Influencer = require('./influencerDB')
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

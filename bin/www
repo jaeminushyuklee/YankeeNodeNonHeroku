@@ -8,6 +8,7 @@ var myModule = require('../app');
 var app = myModule.app;
 var debug = require('debug')('apiyankee:server');
 var http = require('http');
+require('dotenv').config();
 
 /**
  * Get port from environment and store in Express.
