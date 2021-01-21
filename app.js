@@ -15,7 +15,7 @@ const connectToDB = require("./connection");
 const Influencer = require("./influencerDB");
 const User = require("./userDB");
 const { use } = require("./routes/index");
-const bcrypt = require("bcrypt");
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
