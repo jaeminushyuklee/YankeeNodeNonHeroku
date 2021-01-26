@@ -13,7 +13,7 @@ var app = express();
 var connectDB = require("./connection");
 const connectToDB = require("./connection");
 const Influencer = require("./influencerDB");
-const User = require("./userDB");
+const newInfluecer = require("./ideating");
 const { use } = require("./routes/index");
 
 
@@ -66,7 +66,34 @@ app.post("/getReviews", function (req, res) {
   });
 });
 
+app.post("/getReviewsNew", function (req, res) {
+  var ighandlereceive = req.body.ighandle;
+  newInfluecer.findOne({ ighandle: ighandlereceive }, function (err, influencer) {
+    if (err) {
+      console.log(err);
+    }
+    if (!influencer) {
+      res.send("No reviews");
+    } else if (influencer.reviews.length === 0){
+      res.send("No reviews")
+    } else {
+      res.send(influencer.reviews);
+    }
+  });
+});
 
+app.post('/testnewinf', async function(req,res) {
+  const reqighandle = req.body.ighandle;
+  const reqreview = req.body.review;
+  const update = { $push:{reviews:{$each: [reqreview],
+    $position: 0}}};
+  
+  const foundInfluencer = await newInfluecer.findOneAndUpdate({ ighandle: reqighandle },update,{upsert:true,new:true,runValidators:true});
+  const updated = await foundInfluencer.save()
+  res.json(updated);
+  
+    
+})
 
 app.post("/testpython", function (req, res) {
   var reviewreceive = req.body.REVIEW;

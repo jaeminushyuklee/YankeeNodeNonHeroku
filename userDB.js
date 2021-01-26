@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const user = new mongoose.Schema({
     email: {type:String, required:true, unique: true},
     password: {type:String, required:true, minLength:5},
-    
-    username: {type:String, required:true, minLength:5, unique: true},
+    firstname:{type:String, required:true, minLenght:5},
+    lastname:{type:String, required:true, minLenght:5},
+    writtenReviews:Array,
 });
 
 
