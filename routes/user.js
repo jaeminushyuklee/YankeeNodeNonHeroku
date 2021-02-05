@@ -65,17 +65,18 @@ router.post("/login",async(req,res,next)=>{
   try{
     const {email, password} = req.body;
     if(!email || !password){
-      return res.status(400).json({msg:"Not all fields have been completed"})
+      
+      return res.status(200).json({msg:"Not all fields have been completed"})
     }
     var user = await User.findOne({email: email});
     
     
     if(!user){
-      return res.status(400).json({msg:"No account with this email"})
+      return res.status(200).json({msg:"No account with this email"})
     }
     const isMatch = await bcrypt.compare(password,user.password);
     if(!isMatch){
-      return res.status(400).json({msg:"Invalid"})
+      return res.status(200).json({msg:"Invalid"})
     }
 
     const token = jwt.sign({id:user._id}, process.env.JWT_SECRET)
@@ -168,6 +169,12 @@ router.post("/deleteReview", async(req,res,next)=>{
   const user = await User.findByIdAndUpdate(mongoose.Types.ObjectId(user_id),{ $pull: {writtenReviews:{$gte:{ighandle:inf_id,review:rev_id}}}});
   user.writtenReviews.pull({ ighandle: inf_id });
   res.send("done");
+})
+
+router.post("/getUser", async(req,res,next)=>{
+  const user_id = mongoose.Types.ObjectId(req.body.user_id);
+  const Userdoc = await User.findById(user_id).exec();
+  res.send(Userdoc);
 })
 
 module.exports = router;
